@@ -4,11 +4,15 @@ import {IngredientCollection} from "./IngredientCollection";
 Meteor.methods({
 
     'ingredients.find'(predicate) {
+        return IngredientCollection.find(predicate);
+    },
+
+    'ingredients.findOne'(predicate) {
         return IngredientCollection.findOne(predicate);
     },
 
     'ingredients.createIfNotExists'(name) {
-        const ingredient = Meteor.call('ingredients.find', {name: name});
+        const ingredient = Meteor.call('ingredients.findOne', {name: name});
 
         if (!ingredient) {
             Meteor.call('ingredients.create', name);
