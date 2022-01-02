@@ -1,3 +1,13 @@
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
+import '../imports/ingredients/ingredientsMethods';
 
-Meteor.startup(() => {});
+Meteor.startup(() => {
+        [
+            'Poteter',
+            'Gulrøtter',
+            'Kyllingbryst',
+            'Laks',
+            'Melk',
+            'Biola'
+        ].forEach(name => Meteor.call('ingredients.createIfNotExists', name));
+});

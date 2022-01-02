@@ -3,8 +3,22 @@ import {IngredientCollection} from "./IngredientCollection";
 
 Meteor.methods({
 
+    'ingredients.find'(predicate) {
+        return IngredientCollection.findOne(predicate);
+    },
+
+    'ingredients.createIfNotExists'(name) {
+        const ingredient = Meteor.call('ingredients.find', {name: name});
+
+        if (!ingredient) {
+            Meteor.call('ingredients.create', name);
+        }
+    },
+
     'ingredients.create'(name) {
         check(name, String);
+
+        //TODO: Validate that name is not in use
 
         IngredientCollection.insert({
             name,
@@ -12,7 +26,7 @@ Meteor.methods({
         });
     },
 
-    'tasks.delete'(id) {
+    'ingredients.delete'(id) {
         check(id, String);
 
         //TODO: Validate that the ingredient is not in use
@@ -23,7 +37,7 @@ Meteor.methods({
             throw new Meteor.Error('Object not found.');
         }
 
-        IngredientCollection.remove(taskId);
+        IngredientCollection.remove(id);
     }
 
 });
